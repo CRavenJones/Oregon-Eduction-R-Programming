@@ -54,23 +54,21 @@ state_testing20212022_v2 <-
 # Filter out zeros, group by schools, and find median/mean percent proficient
 
 state_testing20182019_v3 <- 
-  state_testing20182019 %>%
+  state_testing20182019_v2 %>%
   select(Number.Proficient, Percent.Proficient..Level.3.or.4., Number.Level.1, Number.Level.2, Number.Level.3, Number.Level.4, Number.of.Participants, Percent.Level.1, Percent.Level.2, Percent.Level.3, Percent.Level.4, Participation.Rate,
          District, School.ID, School, Subject, Grade.Level) %>%
   filter(Number.of.Participants >0) %>%
-  mutate(Number.Proficient= as.numeric(Number.Proficient), 
-         Percent.Proficient..Level.3.or.4.= as.numeric(Percent.Proficient..Level.3.or.4.),
-         Number.Level.1= as.numeric(Number.Level.1),
-         Number.Level.2= as.numeric(Number.Level.2),
-         Number.Level.3= as.numeric(Number.Level.3),
-         Number.Level.4= as.numeric(Number.Level.4),
-         Number.of.Participants= as.numeric(Number.of.Participants),
-         Percent.Level.1= as.numeric(Percent.Level.1),
-         Percent.Level.2= as.numeric(Percent.Level.2),
-         Percent.Level.3= as.numeric(Percent.Level.3),
-         Percent.Level.4= as.numeric(Percent.Level.4),
-         Participation.Rate= as.numeric(Participation.Rate)) %>%
-  group_by(School.ID, School, Grade.Level) %>%
+  group_by(Grade.Level,School.ID, School, Number.of.Participants) %>%
   summarise(medianPerP= median(Percent.Proficient..Level.3.or.4.), meanPerP= mean(Percent.Proficient..Level.3.or.4.)) %>%
   arrange(desc(medianPerP))
+
+state_testing20212022_v3 <-
+  state_testing20212022_v2 %>%
+  select(Number.Proficient, Percent.Proficient..Level.3.or.4., Number.Level.1, Number.Level.2, Number.Level.3, Number.Level.4, Number.of.Participants, Percent.Level.1, Percent.Level.2, Percent.Level.3, Percent.Level.4, Participation.Rate,
+         District, School.ID, School, Subject, Grade.Level) %>%
+  filter(Number.of.Participants >0) %>%
+  group_by(Grade.Level,School.ID, School, Number.of.Participants) %>%
+  summarise(medianPerP= median(Percent.Proficient..Level.3.or.4.), meanPerP= mean(Percent.Proficient..Level.3.or.4.)) %>%
+  arrange(desc(medianPerP))
+
 
